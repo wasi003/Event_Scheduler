@@ -16,22 +16,20 @@ The application is built using Flask with SQLAlchemy ORM and SQLite for data per
 - **ORM:** SQLAlchemy
 - **Environment:** Python Virtual Environment
 
----
+
 
 ## 🚀 Features Implemented
-- User authentication (login & logout)
 - Event creation, editing, and deletion
 - Resource management
 - Allocation of resources to events
-- Admin and user role handling
 - SQLite database integration
 - Flash messages for user interaction
 - Modular Flask route structure
 
----
+---mmm
 
 ## 📂 Project Structure
-```
+
 
 New folder/
 │── app.py
@@ -209,3 +207,7 @@ The demo video demonstrates:
 This project is developed for educational purposes only.
 
 ```
+<img width="1920" height="1008" alt="dashboard" src="https://github.com/user-attachments/assets/992e491a-df46-4775-b03a-f01516a9e6a8" />
+<img width="1920" height="1008" alt="create_event" src="https://github.com/user-attachments/assets/d3ee7e00-0f0d-41c0-ab15-b3e7c016e7e2" />
+<img width="1920" height="1008" alt="resources" src="https://github.com/user-attachments/assets/f52ce8be-d351-4e3b-a4c6-97c0fbe2fc8c" />
+<img width="1920" height="1008" alt="event_list" src="https://github.com/user-attachments/assets/0c0b0562-862c-4c34-9b68-88b8d3369df2" />
