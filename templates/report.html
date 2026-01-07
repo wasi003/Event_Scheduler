@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h4>Resource Utilization Report</h4>
+
+<form method="post" class="row g-3 mb-3">
+    <div class="col-md-4">
+        <label>From Date</label>
+        <input type="date" name="start_date" class="form-control" required>
+    </div>
+
+    <div class="col-md-4">
+        <label>To Date</label>
+        <input type="date" name="end_date" class="form-control" required>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-primary">Generate</button>
+    </div>
+</form>
+
+    {% if report_data %}
+    <div class="mb-3 d-flex justify-content-between">
+        <div>
+            <form method="post" action="/report/export">
+                <input type="hidden" name="start_date" value="{{ start_date }}">
+                <input type="hidden" name="end_date" value="{{ end_date }}">
+                <button class="btn btn-outline-secondary">Export CSV</button>
+            </form>
+        </div>
+        <div>
+            <strong>Totals:</strong> Hours: {{ totals.hours }} &nbsp; Bookings: {{ totals.bookings }} &nbsp; Upcoming: {{ totals.upcoming }}
+        </div>
+    </div>
+
+    <canvas id="reportChart" height="120"></canvas>
+
+    <table class="table table-bordered mt-3">
+        <thead>
+        <tr>
+            <th>Resource</th>
+            <th>Type</th>
+            <th>Total Hours Used</th>
+            <th>% of Range</th>
+            <th>No. of Bookings</th>
+            <th>Upcoming Bookings</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in report_data %}
+        <tr>
+            <td>{{ r.name }}</td>
+            <td>{{ r.type }}</td>
+            <td>{{ r.hours }}</td>
+            <td>{{ r.percent }}%</td>
+            <td>{{ r.bookings }}</td>
+            <td>{{ r.upcoming }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="2">Totals</th>
+            <th>{{ totals.hours }}</th>
+            <th></th>
+            <th>{{ totals.bookings }}</th>
+            <th>{{ totals.upcoming }}</th>
+        </tr>
+        </tfoot>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = {{ report_data|map(attribute='name')|list|tojson }};
+        const hours = {{ report_data|map(attribute='hours')|list|tojson }};
+
+        new Chart(document.getElementById('reportChart').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Hours used',
+                    data: hours,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)'
+                }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    </script>
+    {% endif %}
+
+{% endblock %}
