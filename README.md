@@ -172,7 +172,7 @@ http://127.0.0.1:5000/
 ## 🎥 Screen-Recorded Demo Video 
 
 👉 **Demo Video Link:**
-[[Demo video link will be updated here](https://drive.google.com/file/d/1ltUlwVerHNbs8GtZ_XVOp-6ghlXtF7XU/view?usp=sharing)]
+[(https://drive.google.com/file/d/1ltUlwVerHNbs8GtZ_XVOp-6ghlXtF7XU/view?usp=sharing)]
 
 The demo video demonstrates:
 
