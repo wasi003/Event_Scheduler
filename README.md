@@ -54,16 +54,6 @@ New folder/
 │── README.md
 ```
 
----
-
-If you want, I can also:
-
-* ✨ Make it **resume-ready**
-* 🧪 Add **setup & run instructions**
-* 📌 Add **API endpoints documentation**
-* 📷 Add **screenshots section**
-
-Just tell me 👍
 
 
 ---
