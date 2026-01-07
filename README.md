@@ -125,14 +125,14 @@ http://127.0.0.1:5000/
 ## 🗄️ Database Schema Diagram
 
 ```
-+-------------+        +------------------+        +--------------+
-|    User     |        |      Event       |        |   Resource   |
-+-------------+        +------------------+        +--------------+
-| id (PK)     |<----+  | id (PK)          |        | id (PK)      |
-| username    |     |  | title            |        | name         |
-| password    |     |  | date             |        | type         |
-| role        |     |  | created_by (FK)  |        | availability |
-+-------------+     |  +------------------+        +--------------+
+                       +------------------+        +--------------+
+                       |      Event       |        |   Resource   |
+                       +------------------+        +--------------+
+                    +->| id (PK)          |        | id (PK)      |
+                    |  | title            |        | name         |
+                    |  | date             |        | type         |
+                    |  | created_by (FK)  |        | availability |
+                    |  +------------------+        +--------------+
                     |
                     |  +----------------------------------------+
                     +--| EventResourceAllocation                |
@@ -146,12 +146,6 @@ http://127.0.0.1:5000/
 ---
 
 ## 🖼️ Screenshots of Major Screens
-
-> Screenshots will be added later in the `/screenshots` folder.
-
-### 🔐 Login Page
-
-![Login Page](screenshots/login.png)
 
 ### 🏠 Dashboard
 
@@ -171,7 +165,7 @@ http://127.0.0.1:5000/
 
 ---
 
-## 🎥 Screen-Recorded Demo Video (Mandatory)
+## 🎥 Screen-Recorded Demo Video 
 
 👉 **Demo Video Link:**
 [Demo video link will be updated here]
@@ -179,21 +173,9 @@ http://127.0.0.1:5000/
 The demo video demonstrates:
 
 * Application startup
-* User authentication
 * Event creation and management
 * Resource allocation
 * Database interaction
-
----
-
-## 🧪 Sample Test Credentials
-
-```
-Username: admin
-Password: admin123
-```
-
-*(Update credentials if required)*
 
 ---
 
@@ -216,7 +198,7 @@ Password: admin123
 
 ## 👨‍💻 Author
 
-**Name:** Wasi
+**Name:** Wasim Ahamed
 **Project Type:** Academic / Learning Project
 **Framework:** Flask
 
