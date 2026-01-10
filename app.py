@@ -3,10 +3,6 @@ from datetime import datetime, date
 from functools import wraps
 
 from models import db, User, Event, Resource, EventResourceAllocation
-
-# -------------------------------------------------
-# Flask App Configuration
-# -------------------------------------------------
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///events.db'
@@ -15,9 +11,6 @@ app.secret_key = "simple-secret-key"
 
 db.init_app(app)
 
-# -------------------------------------------------
-# Home
-# -------------------------------------------------
 @app.route('/')
 def home():
   
@@ -25,12 +18,6 @@ def home():
 
 
 
-# -------------------------------------------------
-# Login Required Decorator
-# -------------------------------------------------
-# -------------------------------------------------
-# Events
-# -------------------------------------------------
 @app.route('/events')
 
 def events():
@@ -45,7 +32,7 @@ def profile():
     user = User.query.filter_by(username=username).first()
 
     user_events = []
-    # Try to load events and allocations owned by this user. Be defensive if the model lacks user_id.
+   
     user_events = []
     user_allocations = []
     try:
@@ -53,7 +40,7 @@ def profile():
             user_events = Event.query.filter_by(user_id=user.user_id).all()
             user_allocations = EventResourceAllocation.query.join(Event).filter(Event.user_id == user.user_id).all()
         else:
-            # fallback: no ownership info available on Event model
+          
             user_events = []
             user_allocations = []
     except Exception:
@@ -67,7 +54,7 @@ def profile():
 
 def add_event():
     if request.method == 'POST':
-        # Get the current user
+  
         username = session.get('user')
         user = User.query.filter_by(username=username).first()
         
@@ -76,7 +63,7 @@ def add_event():
             start_time=datetime.fromisoformat(request.form['start_time']),
             end_time=datetime.fromisoformat(request.form['end_time']),
             description=request.form['description'],
-            user_id=user.user_id if user else None  # Set the creator's user_id
+            user_id=user.user_id if user else None 
         )
         db.session.add(event)
         db.session.commit()
@@ -93,7 +80,7 @@ def edit_event(event_id):
     
     username = session.get('user')
     user = User.query.filter_by(username=username).first()
-    # Check permissions: if the event has an owner, only that owner may edit.
+   
     if hasattr(event, 'user_id') and event.user_id is not None:
         if not user or event.user_id != user.user_id:
             return {"message": "You can only edit your own events!"}, 403
@@ -117,11 +104,11 @@ def delete_event_web(event_id):
     """Delete event via web form (session-based auth)"""
     event = Event.query.get_or_404(event_id)
     
-    # Get current user
+  
     username = session.get('user')
     user = User.query.filter_by(username=username).first()
     
-    # Allow deletion if event has no owner, or if current user owns it
+ 
     event_owner = getattr(event, 'user_id', None)
     if event_owner is None or (user and event_owner == getattr(user, 'user_id', None)):
         try:
@@ -138,9 +125,7 @@ def delete_event_web(event_id):
     return redirect(url_for('events'))
 
 
-# -------------------------------------------------
-# Resources
-# -------------------------------------------------
+
 @app.route('/resources/')
 
 def resources():
@@ -185,9 +170,7 @@ def delete_resource(resource_id):
     return redirect(url_for('resources'))
 
 
-# -------------------------------------------------
-# Allocation & Conflict Detection
-# -------------------------------------------------
+
 @app.route('/allocate', methods=['GET', 'POST'])
 
 def allocate_resource():
@@ -220,9 +203,9 @@ def allocate_resource():
             )
             db.session.add(allocation)
             db.session.commit()
-            # Reload allocations instead of redirecting
+          
             allocations = EventResourceAllocation.query.all()
-            error = None  # Clear any previous errors, show success message
+            error = None  
             flash("Resource allocated successfully!", "success")
 
     return render_template(
@@ -237,7 +220,7 @@ def allocate_resource():
 @app.route('/allocations')
 
 def view_allocations():
-    # Redirect to unified allocate page
+   
     return redirect(url_for('allocate_resource'))
 
 
@@ -247,20 +230,20 @@ def remove_allocation(alloc_id):
     allocation = EventResourceAllocation.query.get_or_404(alloc_id)
     event = Event.query.get(allocation.event_id)
 
-    # get current user
+   
     username = session.get('user')
     user = None
     if username:
         user = User.query.filter_by(username=username).first()
 
-    # Only the event owner can remove allocation (no admin flag in User model)
+   
     if event:
-        # guard against missing `user_id` on Event model
+      
         if hasattr(event, 'user_id'):
             event_owner_id = getattr(event, 'user_id')
             current_user_id = getattr(user, 'user_id', None) if user else None
 
-            # If the event has an owner, only the owner may remove allocations.
+           
             if event_owner_id is not None and current_user_id != event_owner_id:
                 flash('You are not authorized to remove this allocation.')
                 return redirect(url_for('view_allocations'))
@@ -276,9 +259,7 @@ def remove_allocation(alloc_id):
     return redirect(url_for('view_allocations'))
 
 
-# -------------------------------------------------
-# Resource Utilization Report
-# -------------------------------------------------
+
 @app.route('/report', methods=['GET', 'POST'])
 
 def utilization_report():
@@ -290,7 +271,7 @@ def utilization_report():
         start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d').date()
         end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d').date()
 
-        # Avoid zero-day ranges (ensure at least one day)
+       
         range_days = (end_date - start_date).days + 1
         total_range_hours = max(range_days * 24, 1)
 
@@ -299,7 +280,7 @@ def utilization_report():
 
             for alloc in resource.allocations:
                 event = alloc.event
-                # skip if event missing data
+               
                 if not getattr(event, 'start_time', None) or not getattr(event, 'end_time', None):
                     continue
 
@@ -333,7 +314,7 @@ def utilization_report():
 
 @app.route('/report/export', methods=['POST'])
 def export_report_csv():
-    # Export same data as CSV for given date range
+   
     try:
         start_date = datetime.strptime(request.form['start_date'], '%Y-%m-%d').date()
         end_date = datetime.strptime(request.form['end_date'], '%Y-%m-%d').date()
@@ -373,14 +354,9 @@ def export_report_csv():
     return resp
 
 
-# -------------------------------------------------
-# Admin User Management
-# -------------------------------------------------
 
-# -------------------------------------------------
-# Run Application
-# -------------------------------------------------
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
