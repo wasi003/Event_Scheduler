@@ -1,13 +1,11 @@
-# utils/helpers.py
+
 from functools import wraps
 from flask import request, jsonify, g
 from config import Config
 from models import User
 
 
-# =====================================================
-# TOKEN REQUIRED DECORATOR
-# =====================================================
+
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -36,16 +34,15 @@ def token_required(f):
     return decorated
 
 
-# =====================================================
-# ADMIN REQUIRED DECORATOR
-# =====================================================
+
 def admin_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        # Admin concept removed: treat this as an authentication-only guard
+      
         if not hasattr(g, 'current_user'):
             return jsonify({'message': 'Authentication required!'}), 401
 
         return f(*args, **kwargs)
 
     return decorated
+
