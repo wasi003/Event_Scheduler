@@ -1,6 +1,4 @@
-/* Enhanced Animated CSS */
 
-/* Base styles with animation */
 body {
     background: linear-gradient(-45deg, #e0e7ff, #f8fafc, #dbeafe, #e0f2fe);
     background-size: 400% 400%;
@@ -18,7 +16,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Floating particles in background */
 body::before {
     content: '';
     position: fixed;
@@ -42,7 +39,7 @@ body::before {
     100% { transform: translateY(-100px) rotate(360deg); }
 }
 
-/* Enhanced Card Styles */
+
 .card {
     border-radius: 16px;
     box-shadow: 
@@ -84,7 +81,7 @@ body::before {
     100% { left: 100%; }
 }
 
-/* Enhanced Header Styles */
+
 h4 {
     color: #1e3a8a;
     font-weight: 800;
@@ -122,7 +119,7 @@ h4::after {
     50% { width: 120px; transform: translateX(20px); }
 }
 
-/* Enhanced Button Styles */
+
 .btn {
     border-radius: 10px;
     font-weight: 600;
@@ -162,7 +159,7 @@ h4::after {
     transform: translateY(-1px) scale(1.02);
 }
 
-/* Specific button styles */
+
 .btn-primary {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
     box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.4);
@@ -183,7 +180,7 @@ h4::after {
     box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.6);
 }
 
-/* Enhanced Table Styles */
+
 .table {
     background: white;
     border-radius: 12px;
@@ -258,7 +255,7 @@ h4::after {
     font-weight: 500;
 }
 
-/* Add striped rows with animation */
+
 .table tbody tr:nth-child(even) {
     background-color: #f8fafc;
 }
@@ -267,7 +264,7 @@ h4::after {
     background: linear-gradient(90deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
 }
 
-/* Loading animation for table rows */
+
 .table tbody tr {
     animation: rowSlideIn 0.5s ease-out forwards;
     opacity: 0;
@@ -281,7 +278,7 @@ h4::after {
     }
 }
 
-/* Stagger the row animations */
+
 .table tbody tr:nth-child(1) { animation-delay: 0.1s; }
 .table tbody tr:nth-child(2) { animation-delay: 0.2s; }
 .table tbody tr:nth-child(3) { animation-delay: 0.3s; }
@@ -289,7 +286,7 @@ h4::after {
 .table tbody tr:nth-child(5) { animation-delay: 0.5s; }
 .table tbody tr:nth-child(6) { animation-delay: 0.6s; }
 
-/* Add subtle pulse animation to important elements */
+
 @keyframes gentlePulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.02); }
@@ -302,7 +299,7 @@ h4::after {
     outline-offset: 2px;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .card {
         margin: 1rem;
@@ -322,18 +319,18 @@ h4::after {
     }
 }
 
-/* Smooth scroll behavior */
+
 html {
     scroll-behavior: smooth;
 }
 
-/* Selection color */
+
 ::selection {
     background-color: rgba(59, 130, 246, 0.3);
     color: #1e3a8a;
 }
 
-/* Custom scrollbar */
+
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -353,7 +350,7 @@ html {
     background: linear-gradient(180deg, #2563eb, #7c3aed);
 }
 
-/* Focus styles for accessibility */
+
 *:focus {
     outline: 2px solid #3b82f6;
     outline-offset: 2px;
@@ -363,7 +360,7 @@ html {
     outline: none;
 }
 
-/* NAVBAR AND BUTTON TWEAKS */
+
 .navbar .navbar-brand {
     font-size: 1.05rem;
     padding-right: 0.75rem;
@@ -382,7 +379,7 @@ html {
     border-radius: 8px;
 }
 
-/* REPORT CHART & LAYOUT */
+
 #reportChart {
     max-width: 100%;
     height: auto !important;
@@ -396,7 +393,7 @@ html {
     flex-wrap: wrap;
 }
 
-/* Reduce heavy animations when user prefers reduced motion */
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation: none !important;
@@ -404,13 +401,13 @@ html {
     }
 }
 
-/* Slightly tone down global animation intensity for performance */
 @media (max-width: 1024px) {
     body::before { animation-duration: 40s; }
     .card::before { animation-duration: 5s; }
     .card:hover { transform: none; }
 }
 
-/* Utility helpers */
+
 .muted-small { color: #6b7280; font-size: 0.9rem; }
 .gap-sm { gap: 0.5rem; }
+
