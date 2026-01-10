@@ -8,11 +8,11 @@ if __name__ == '__main__':
             print('Aborted.')
         else:
             try:
-                # Clear ownership on events
+              
                 Event.query.update({Event.user_id: None})
                 db.session.commit()
 
-                # Delete all users
+             
                 num = User.query.delete()
                 db.session.commit()
 
@@ -20,3 +20,4 @@ if __name__ == '__main__':
             except Exception as e:
                 db.session.rollback()
                 print('Error:', e)
+
