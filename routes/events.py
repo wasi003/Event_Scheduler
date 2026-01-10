@@ -12,9 +12,6 @@ from utils.conflict_checker import has_resource_conflict
 
 events_bp = Blueprint('events', __name__)
 
-# =====================================================
-# GET ALL EVENTS
-# =====================================================
 @events_bp.route('/', methods=['GET'])
 def get_events():
     try:
@@ -87,18 +84,12 @@ def get_events():
         return jsonify({'message': str(e)}), 500
 
 
-# =====================================================
-# GET SINGLE EVENT
-# =====================================================
 @events_bp.route('/<int:event_id>', methods=['GET'])
 def get_event(event_id):
     event = Event.query.get_or_404(event_id)
     return jsonify(event.to_dict()), 200
 
 
-# =====================================================
-# CREATE EVENT
-# =====================================================
 @events_bp.route('/', methods=['POST'])
 @token_required
 def create_event():
@@ -138,9 +129,7 @@ def create_event():
         return jsonify({'message': str(e)}), 500
 
 
-# =====================================================
-# UPDATE EVENT
-# =====================================================
+
 @events_bp.route('/<int:event_id>', methods=['PUT'])
 @token_required
 def update_event(event_id):
@@ -176,9 +165,6 @@ def update_event(event_id):
         return jsonify({'message': str(e)}), 500
 
 
-# =====================================================
-# DELETE EVENT
-# =====================================================
 @events_bp.route('/<int:event_id>', methods=['DELETE'])
 @token_required
 def delete_event(event_id):
@@ -188,7 +174,7 @@ def delete_event(event_id):
         return jsonify({'message': 'You can only delete your own events!'}), 403
 
     try:
-        # Remove any resource allocations tied to this event first
+       
         EventResourceAllocation.query.filter_by(event_id=event.event_id).delete()
 
         db.session.delete(event)
@@ -200,9 +186,7 @@ def delete_event(event_id):
         return jsonify({'message': str(e)}), 500
 
 
-# =====================================================
-# REGISTER / UNREGISTER
-# =====================================================
+
 @events_bp.route('/<int:event_id>/register', methods=['POST'])
 @token_required
 def register_for_event(event_id):
@@ -250,9 +234,6 @@ def unregister_from_event(event_id):
     return jsonify({'message': 'Unregistered successfully!'}), 200
 
 
-# =====================================================
-# RESOURCE ALLOCATION WITH CONFLICT DETECTION 🔥
-# =====================================================
 @events_bp.route('/<int:event_id>/allocate-resource', methods=['POST'])
 @token_required
 def allocate_resource(event_id):
@@ -294,14 +275,10 @@ def allocate_resource(event_id):
     }), 200
 
 
-# =====================================================
-# LIST ALLOCATIONS (for events owned by current user)
-# =====================================================
 @events_bp.route('/allocations', methods=['GET'])
 @token_required
 def list_allocations():
     try:
-        # allocations for events owned by the current user
         allocations = EventResourceAllocation.query.join(Event).filter(Event.user_id == g.current_user.id).all()
 
         data = []
@@ -325,17 +302,12 @@ def list_allocations():
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
-
-# =====================================================
-# DELETE AN ALLOCATION (unallocate a resource)
-# =====================================================
 @events_bp.route('/allocations/<int:alloc_id>', methods=['DELETE'])
 @token_required
 def delete_allocation(alloc_id):
     allocation = EventResourceAllocation.query.get_or_404(alloc_id)
     event = Event.query.get(allocation.event_id)
 
-    # Only the event owner can remove an allocation
     if event and event.user_id != g.current_user.id:
         return jsonify({'message': 'You are not authorized to remove this allocation.'}), 403
 
@@ -346,3 +318,4 @@ def delete_allocation(alloc_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': str(e)}), 500
+
