@@ -22,7 +22,7 @@ class Event(db.Model):
     description = db.Column(db.Text)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     
-    # Relationship to allocations
+
     allocations = db.relationship('EventResourceAllocation', backref='event', lazy=True)
 
 class Resource(db.Model):
@@ -30,10 +30,11 @@ class Resource(db.Model):
     resource_name = db.Column(db.String(150), nullable=False)
     resource_type = db.Column(db.String(100), nullable=False)
     
-    # Relationship for report generation
+
     allocations = db.relationship('EventResourceAllocation', backref='resource', lazy=True)
 
 class EventResourceAllocation(db.Model):
     allocation_id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey('event.event_id'), nullable=False)
+
     resource_id = db.Column(db.Integer, db.ForeignKey('resource.resource_id'), nullable=False)
