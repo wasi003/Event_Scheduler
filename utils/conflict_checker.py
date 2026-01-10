@@ -11,8 +11,9 @@ def has_resource_conflict(resource_id, start_time, end_time):
         if not event:
             continue
 
-        # Overlap check
+   
         if start_time < event.end_time and end_time > event.start_time:
             return event
 
     return None
+
